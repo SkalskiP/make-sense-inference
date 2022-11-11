@@ -31,9 +31,8 @@ To run `pre-commit` check
 (MakeSenseServing) repository_root$ pre-commit
 ```
 
-To run tests, linter and type-checker
+To run tests, linter
 ```bash
 (MakeSenseServing) repository_root$ pytest
 (MakeSenseServing) repository_root$ black .
-(MakeSenseServing) repository_root$ mypy .
 ```
