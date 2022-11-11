@@ -6,7 +6,9 @@ This repository is meant to be used as a template for serving models as part of 
 ## Repository structure
 #TODO
 
-## :rotating_light: Repository setup
+## Contribution guide
+
+### :rotating_light: Repository setup
 To initialize conda environment use
 ```bash
 conda create -n MakeSenseServing python=3.9
@@ -15,23 +17,23 @@ conda activate MakeSenseServing
 
 To install dependencies use
 ```bash
-(TestingInMLEWorld) repository_root$ pip install -r requirements[-gpu].txt
-(TestingInMLEWorld) repository_root$ pip install -r requirements-dev.txt
+(MakeSenseServing) repository_root$ pip install -r requirements[-gpu].txt
+(MakeSenseServing) repository_root$ pip install -r requirements-dev.txt
 ```
 
 To enable `pre-commit` use
 ```bash
-(TestingInMLEWorld) repository_root$ pre-commit install
+(MakeSenseServing) repository_root$ pre-commit install
 ```
 
 To run `pre-commit` check
 ```bash
-(TestingInMLEWorld) repository_root$ pre-commit
+(MakeSenseServing) repository_root$ pre-commit
 ```
 
 To run tests, linter and type-checker
 ```bash
-(TestingInMLEWorld) repository_root$ pytest
-(TestingInMLEWorld) repository_root$ black .
-(TestingInMLEWorld) repository_root$ mypy .
+(MakeSenseServing) repository_root$ pytest
+(MakeSenseServing) repository_root$ black .
+(MakeSenseServing) repository_root$ mypy .
 ```

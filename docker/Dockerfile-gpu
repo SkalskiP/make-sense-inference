@@ -1,0 +1,20 @@
+FROM docker.io/nvidia/cuda:11.0.3-base-ubuntu18.04
+ARG MODEL_FAMILY=yolov5
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt update && apt install -y software-properties-common
+RUN add-apt-repository -y ppa:deadsnakes/ppa && \
+    apt update -y && \
+    apt install -y python3.9 python3-pip python3.9-distutils
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.9 1
+
+RUN mkdir build_dependencies
+COPY requirements/requirements-gpu.txt build_dependencies/requirements-gpu.txt
+COPY requirements/requirements-torchserve.txt build_dependencies/requirements-torchserve.txt
+COPY requirements/model_dependencies/${MODEL_FAMILY}.txt build_dependencies/model_dependencies/${MODEL_FAMILY}.txt
+RUN python -m pip install --upgrade pip setuptools distlib
+RUN python -m pip install -r build_dependencies/requirements-torchserve.txt
+RUN python -m pip install -r build_dependencies/requirements-gpu.txt
+RUN python -m pip install -r build_dependencies/model_dependencies/${MODEL_FAMILY}.txt
+RUN rm -r build_dependencies
+
+
