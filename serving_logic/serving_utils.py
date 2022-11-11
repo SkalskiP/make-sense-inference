@@ -5,7 +5,7 @@ from typing import Tuple, Union
 import torch
 from ts.context import Context
 
-from constants import MODEL_CONFIG_FILE_NAME, YOLO_V5_FAMILY_NAME
+from constants import MODEL_CONFIG_FILE_NAME, YOLO_V5_FAMILY_NAME, RETINA_FAMILY_NAME
 from entities import ModelObject, InferenceFunction, ModelConfig
 
 
@@ -26,22 +26,26 @@ def load_model(
     # multiple contradicting libraries later on (we need local import such that specific
     # dependencies are only imported for specific models). That itself may cause problems if
     # dependent model packages imports their local modules of the same name...
+    weights_path = (
+        os.path.join(
+            context.system_properties["model_dir"], model_config.weights_file_name
+        )
+        if model_config.weights_file_name is not None
+        else None
+    )
     if model_config.model_family == YOLO_V5_FAMILY_NAME:
         from yolov5 import load_yolov5_model, YoloV5FactoryParameters
 
         yolo_parameters = YoloV5FactoryParameters.from_dict(
             model_config.factory_parameters
         )
-        weights_path = (
-            os.path.join(
-                context.system_properties["model_dir"], model_config.weights_file_name
-            )
-            if model_config.weights_file_name is not None
-            else None
-        )
         return load_yolov5_model(
             factory_parameters=yolo_parameters, device=device, weights_path=weights_path
         )
+    if model_config.model_family == RETINA_FAMILY_NAME:
+        from retinanet_resnet50_fpn_v2 import load_retinanet_model
+
+        return load_retinanet_model(device=device, weights_path=weights_path)
     raise NotImplementedError(
         f"Model family `{model_config.model_family}` not implemented."
     )

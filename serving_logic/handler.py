@@ -57,4 +57,4 @@ class Handler:
 def decode_request(request_body: Dict[str, Any]) -> np.ndarray:
     raw_image = request_body[REQUEST_IMAGE_FIELD]
     bytes_array = np.asarray(raw_image, dtype=np.uint8)
-    return cv2.imdecode(bytes_array, cv2.IMREAD_COLOR)[:, :, ::-1]
+    return (cv2.imdecode(bytes_array, cv2.IMREAD_COLOR)[:, :, ::-1]).copy()

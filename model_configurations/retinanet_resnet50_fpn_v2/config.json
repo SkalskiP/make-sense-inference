@@ -1,0 +1,5 @@
+{
+  "model_family": "retinanet_resnet50_fpn_v2",
+  "weights_file_name": null,
+  "factory_parameters": {}
+}
