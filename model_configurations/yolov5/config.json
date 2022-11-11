@@ -1,5 +1,5 @@
 {
-  "model_factory": "yolov5",
+  "model_family": "yolov5",
   "weights_file_name": null,
   "factory_parameters": {
     "model_version": "yolov5s",

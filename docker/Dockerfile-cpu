@@ -1,0 +1,33 @@
+FROM python:3.9
+ARG MODEL_FAMILY=yolov5
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt update -y && \
+    apt install -y openjdk-11-jre-headless python3-opencv
+
+RUN mkdir build_dependencies
+COPY requirements/requirements.txt build_dependencies/requirements.txt
+COPY requirements/requirements-torchserve.txt build_dependencies/requirements-torchserve.txt
+COPY requirements/model_dependencies/${MODEL_FAMILY}.txt build_dependencies/model_dependencies/${MODEL_FAMILY}.txt
+RUN python -m pip install --upgrade pip setuptools distlib
+RUN python -m pip install -r build_dependencies/requirements-torchserve.txt
+RUN python -m pip install -r build_dependencies/requirements.txt
+RUN python -m pip install -r build_dependencies/model_dependencies/${MODEL_FAMILY}.txt
+RUN rm -r build_dependencies
+
+ENV BASE_DIR=/opt/ml/torchserve
+ENV SERVING_LOGIC_DIR=$BASE_DIR/serving_logic
+ENV SERVING_CONFIG_DIR=$BASE_DIR/serving_config
+ENV LOG_LOCATION=$BASE_DIR/logs
+ENV MODEL_DIR=/opt/ml/torchserve/model
+RUN mkdir -p $MODEL_DIR $LOG_LOCATION $SERVING_CONFIG_DIR $SERVING_LOGIC_DIR
+COPY model_configurations/${MODEL_FAMILY} $MODEL_DIR
+COPY serving_config $SERVING_CONFIG_DIR
+COPY serving_logic $SERVING_LOGIC_DIR
+RUN chmod ugo+x $SERVING_CONFIG_DIR/prepare_serving.sh
+
+WORKDIR $SERVING_CONFIG_DIR
+RUN ./prepare_serving.sh
+
+WORKDIR $BASE_DIR
+
+CMD ["torchserve", "--start", "--ts-config", "/opt/ml/torchserve/serving_config/config.properties", "--foreground"]

@@ -44,6 +44,6 @@ InferenceFunction = Callable[
 
 @dataclass(frozen=True)
 class ModelConfig(DataClassJsonMixin):
-    model_factory: str
+    model_family: str
     weights_file_name: Optional[str]
     factory_parameters: dict

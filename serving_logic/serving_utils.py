@@ -5,7 +5,7 @@ from typing import Tuple, Union
 import torch
 from ts.context import Context
 
-from constants import MODEL_CONFIG_FILE_NAME, YOLO_V5_FACTORY_NAME
+from constants import MODEL_CONFIG_FILE_NAME, YOLO_V5_FAMILY_NAME
 from entities import ModelObject, InferenceFunction, ModelConfig
 
 
@@ -26,7 +26,7 @@ def load_model(
     # multiple contradicting libraries later on (we need local import such that specific
     # dependencies are only imported for specific models). That itself may cause problems if
     # dependent model packages imports their local modules of the same name...
-    if model_config.model_factory == YOLO_V5_FACTORY_NAME:
+    if model_config.model_family == YOLO_V5_FAMILY_NAME:
         from yolov5 import load_yolov5_model, YoloV5FactoryParameters
 
         yolo_parameters = YoloV5FactoryParameters.from_dict(
@@ -43,7 +43,7 @@ def load_model(
             factory_parameters=yolo_parameters, device=device, weights_path=weights_path
         )
     raise NotImplementedError(
-        f"Model factory `{model_config.model_factory}` not implemented."
+        f"Model family `{model_config.model_family}` not implemented."
     )
 
 
