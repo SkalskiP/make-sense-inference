@@ -7,7 +7,7 @@ RUN apt update -y && \
 RUN mkdir build_dependencies
 COPY requirements/requirements.txt build_dependencies/requirements.txt
 COPY requirements/requirements-torchserve.txt build_dependencies/requirements-torchserve.txt
-COPY requirements/model_dependencies/${MODEL_FAMILY}.txt build_dependencies/model_dependencies/${MODEL_FAMILY}.txt
+COPY requirements/model_dependencies build_dependencies/model_dependencies
 RUN python -m pip install --upgrade pip setuptools distlib
 RUN python -m pip install -r build_dependencies/requirements-torchserve.txt
 RUN python -m pip install -r build_dependencies/requirements.txt

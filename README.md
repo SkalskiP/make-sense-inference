@@ -166,6 +166,7 @@ curl -X POST http://127.0.0.1:8080/predictions/object_detector -F image=@path_to
 ## Supported models
 * [yolov5](https://github.com/ultralytics/yolov5)
 * `retinanet_resnet50_fpn_v2` from `torchvision`
+* [yolov7](https://github.com/WongKinYiu/yolov7) - please see [docs to find details](./model_configurations/yolov7/README.md)
 
 ## Contribution guide
 

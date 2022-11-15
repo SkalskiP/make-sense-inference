@@ -5,7 +5,12 @@ from typing import Tuple, Union
 import torch
 from ts.context import Context
 
-from constants import MODEL_CONFIG_FILE_NAME, YOLO_V5_FAMILY_NAME, RETINA_FAMILY_NAME
+from constants import (
+    MODEL_CONFIG_FILE_NAME,
+    YOLO_V5_FAMILY_NAME,
+    RETINA_FAMILY_NAME,
+    YOLO_V7_FAMILY_NAME,
+)
 from entities import ModelObject, InferenceFunction, ModelConfig
 
 
@@ -46,6 +51,16 @@ def load_model(
         from retinanet_resnet50_fpn_v2 import load_retinanet_model
 
         return load_retinanet_model(device=device, weights_path=weights_path)
+    if model_config.model_family == YOLO_V7_FAMILY_NAME:
+        from yolov7 import load_yolov7_model, YoloV7FactoryParameters
+
+        yolo_parameters = YoloV7FactoryParameters.from_dict(
+            model_config.factory_parameters
+        )
+        return load_yolov7_model(
+            factory_parameters=yolo_parameters, device=device, weights_path=weights_path
+        )
+
     raise NotImplementedError(
         f"Model family `{model_config.model_family}` not implemented."
     )
