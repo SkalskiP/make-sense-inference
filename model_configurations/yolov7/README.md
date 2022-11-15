@@ -92,8 +92,8 @@ onnx-simplifier>=0.3.6  # ONNX simplifier
 #openvino-dev  # OpenVINO export
 ```
 This is minimal set of uncommented dependencies (three first) that makes all imports to work and at the same
-time are possible to be resolved. **Please convert model in different env that is used for the sake of this repository
-- exported model should be portable.**
+time are possible to be resolved. **Please convert model in different env that is used for the sake of this repository -
+exported model should be portable.**
 
 At the end of the day we have the following command to be used:
 ```bash
